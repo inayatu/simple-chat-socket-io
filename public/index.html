@@ -68,7 +68,10 @@
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      const socket = io();
+      let senderName = prompt("Enter your name: ");
+      let receiverName = prompt("Receiver name: ");
+
+      const socket = io("", { query: `name=${senderName}` });
       let user_id = "";
 
       const messages = document.getElementById("messages");
@@ -80,18 +83,13 @@
         e.preventDefault();
         if (input.value) {
           let msg = JSON.stringify({
-            receiverId: 2,
+            senderName,
+            receiverName,
             text: input.value,
           });
           socket.emit("message", msg);
           input.value = "";
         }
-      });
-
-      // Get userId when user connects first time
-      socket.on("user_id", (userId) => {
-        console.log("userId", userId);
-        userId = userId;
       });
 
       // Receive message
