@@ -79,7 +79,11 @@
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         if (input.value) {
-          socket.emit("message", input.value);
+          let msg = JSON.stringify({
+            receiverId: 2,
+            text: input.value,
+          });
+          socket.emit("message", msg);
           input.value = "";
         }
       });
